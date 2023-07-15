@@ -63,7 +63,7 @@ class dhcpservice(LDAPObject):
             'ipapermlocation': api.env.basedn,
             'ipapermtarget': DN('cn=dhcp', api.env.basedn),
             'replaces_global_anonymous_aci': True,
-            'ipapermbindruletype': 'anonymous',
+            'ipapermbindruletype': 'all',
             'ipapermright': {'read', 'search', 'compare'},
             'ipapermdefaultattr': {
                 'cn', 'objectclass',
@@ -74,7 +74,7 @@ class dhcpservice(LDAPObject):
                 'dhcpHWAddress',
                 'dhcpstatements', 'dhcpoption', 'dhcpcomments'
             },
-            'default_privileges': {'DHCP Administrators'},
+            'default_privileges': {'DHCP Configuration'},
         },
 
         'System: Write DHCP Configuration': {
