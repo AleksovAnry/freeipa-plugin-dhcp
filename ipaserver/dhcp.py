@@ -51,11 +51,13 @@ register = Registry()
 class dhcpservice(LDAPObject):
     object_name = _('DHCP configuration')
     object_name_plural = _('DHCP configuration')
-    object_class = ['dhcpservice']
+    object_class = ['dhcpservice', 'top']
+    default_attributes = ['cn']
     label = _('DHCP Configuration')
     label_singular = _('DHCP Configuration')
 
     managed_permissions = {
+
         'System: Read DHCP Configuration': {
             'non_object': True,
             'ipapermlocation': api.env.basedn,
@@ -72,7 +74,9 @@ class dhcpservice(LDAPObject):
                 'dhcpHWAddress',
                 'dhcpstatements', 'dhcpoption', 'dhcpcomments'
             },
+            'default_privileges': {'DHCP Administrators'},
         },
+
         'System: Write DHCP Configuration': {
             'non_object': True,
             'ipapermright': {'write'},
@@ -156,7 +160,7 @@ class dhcpservice(LDAPObject):
         ),
     )
 
-
+  
     def get_dhcpservice(self, ldap):
         entry = ldap.get_entry(self.get_dn(), None)
         return entry
@@ -1037,7 +1041,7 @@ class dhcpserver_del(LDAPDelete):
 
         try:
             dhcpsecondarydns.remove(dn)
-        except AttributeError, ValueError:
+        except (AttributeError, ValueError):
             pass
 
         dhcpservice['dhcpsecondarydn'] = dhcpsecondarydns
